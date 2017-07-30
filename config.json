@@ -1,4 +1,17 @@
 {
-  "path": "/src/components/",
-  "name": "component"
+  "lang": "en",
+  "default": {
+    "template": "component",
+    "name": "view",
+    "path": "/src/components/"
+  },
+  "lists": {
+    "template": true,
+    "path": ["/src/components/", "/src/components/home"],
+    "name": ["list", "view", "edit"]
+  },
+  "templates": {
+    "global": [],
+    "local": []
+  }
 }

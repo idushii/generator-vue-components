@@ -1,23 +1,28 @@
 {
   "name": "generator-vue-components",
   "displayName": "generator-vue-components",
+  "publisherName": "generator-vue-components",
   "description": "Приложение для генерации файл-компонентов Vue",
-  "version": "0.0.1",
-  "publisher": "generator",
+  "version": "0.1.0",
+  "publisher": "Nic34",
   "engines": {
     "vscode": "^1.14.0"
   },
   "categories": [
-    "Other"
+    "Extension Packs"
   ],
   "activationEvents": [
-    "onCommand:extension.generateComponent"
+    "onCommand:extension.generateComponent",
+    "onCommand:extension.options"
   ],
   "main": "./extension",
   "contributes": {
     "commands": [{
       "command": "extension.generateComponent",
-      "title": "vue: new component"
+      "title": "generator-vue-components: new component"
+    }, {
+      "command": "extension.options",
+      "title": "generator-vue-components: options"
     }]
   },
   "scripts": {
