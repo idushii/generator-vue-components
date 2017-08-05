@@ -8,8 +8,14 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 ## [0.1.1] [05.08.2017]
 ### Fixed
--- Fixed the generation of the local config.json file
+- Fixed the generation of the local config.json file
 
 ## [0.1.2] [05.08.2017]
 ### Fixed
--- Modified the menu for generating new templates
+- Modified the menu for generating new templates
+
+## [0.1.3] [05.08.2017]
+### Fixed
+- Fixed generation of components from local templates
+### Added
+- Added the ability to specify a directory through the template "{{dir}}" in the source template

@@ -189,7 +189,8 @@ function generate() {
     })
     .then(({ template, name, path, text }) => {
       let dir = path.split('/');
-      text = text.replace(/{{name}}/g, name);
+      dir = dir[dir.length - 1]
+      text = text.replace(/{{name}}/g, name).replace(/{{dir}}/g, dir);
 
       if (!fs.existsSync(localPath + '/' + path)) {
         fs.mkdirSync(localPath + '/' + path);
