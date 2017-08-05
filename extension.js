@@ -172,15 +172,23 @@ function generate() {
       console.log(err)
       return { template, name }
     }))
-    .then(({ template, name }) => getPath().then(path => { return { template, name, path } }))
+    .then(({ template, name }) => getPath().then(path => {
+      return { template, name, path }
+    }))
     .then(({ template, name, path }) => {
-      return files.getFile('/templates/' + template)
+      let isLocal = false;
+      if (template.indexOf("\t") != -1) {
+        template = template.split("\t")[1];
+        isLocal = true;
+      }
+      return files.getFile('/templates/' + template, isLocal)
         .then(text => {
           console.log(`template: ${template}, name: ${name}, path: ${path}`)
           return { template, name, path, text }
         })
     })
     .then(({ template, name, path, text }) => {
+      let dir = path.split('/');
       text = text.replace(/{{name}}/g, name);
 
       if (!fs.existsSync(localPath + '/' + path)) {
