@@ -88,11 +88,9 @@ module.exports.getNamesLocalTemplates = function () {
 }
 
 function createDirs() {
-  if (!fs.existsSync(localRoot + '../')) {
-    fs.mkdirSync(localRoot + '../');
-    if (!fs.existsSync(localRoot)) fs.mkdirSync(localRoot);
-    if (!fs.existsSync(localRoot + '/templates')) fs.mkdirSync(localRoot + '/templates');
-  }
+  if (!fs.existsSync(localRoot + '../')) fs.mkdirSync(localRoot + '../');
+  if (!fs.existsSync(localRoot)) fs.mkdirSync(localRoot);
+  if (!fs.existsSync(localRoot + '/templates')) fs.mkdirSync(localRoot + '/templates');
 }
 
 function createLocalConfig(config_ = config) {

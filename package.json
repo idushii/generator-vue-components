@@ -2,7 +2,7 @@
   "name": "generator-vue-components",
   "displayName": "generator-vue-components",
   "publisherName": "generator-vue-components",
-  "description": "Приложение для генерации файл-компонентов Vue",
+  "description": "Application for generating Vue file components",
   "version": "0.1.0",
   "publisher": "Nic34",
   "engines": {
