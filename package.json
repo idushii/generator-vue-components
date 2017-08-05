@@ -3,7 +3,7 @@
   "displayName": "generator-vue-components",
   "publisherName": "generator-vue-components",
   "description": "Application for generating Vue file components",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "publisher": "Nic34",
   "engines": {
     "vscode": "^1.14.0"

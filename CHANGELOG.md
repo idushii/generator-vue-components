@@ -5,3 +5,11 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 ## [Unreleased]
 - Initial release
+
+## [0.1.1] [05.08.2017]
+### Fixed
+-- Fixed the generation of the local config.json file
+
+## [0.1.2] [05.08.2017]
+### Fixed
+-- Modified the menu for generating new templates

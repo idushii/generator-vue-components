@@ -246,7 +246,8 @@ function menu_config() {
 
 /* ----------------------------------- Подменю создания шаблона ----------------------------------- */
 function menu_create_template() {
-  return Promise.resolve(vscode.window.showQuickPick([lang['Глобально'], lang['Локально']], { placeHolder: lang['Создать шаблон глобально или локально?'], ignoreFocusOut: true }))
+  let list = [lang['Глобальный'], lang['Локальный']]
+  return Promise.resolve(vscode.window.showQuickPick(list, { placeHolder: lang['Создать шаблон глобально или локально?'], ignoreFocusOut: true }))
     .then(place => {
       if (place == undefined) return Promise.reject('cancel')
       return new Promise((resolve, reject) => { resolve(vscode.window.showInputBox({ prompt: lang['Какое имя файла шаблона?'], placeHolder: 'component', ignoreFocusOut: true })) })
@@ -257,7 +258,7 @@ function menu_create_template() {
     .then(({ place, name }) => {
       if (name == '') name = 'component'
       if (name == undefined) return Promise.reject('cancel')
-      files.createEmptyTemplate(name, place == lang['Глобально'])
+      files.createEmptyTemplate(name, place == lang['Глобальный'])
         .then(content => {
           terminal.sendText('code "' + (place ? rootPath + '/templates/' : files.localRoot) + '/' + name + '.vue"')
         })
