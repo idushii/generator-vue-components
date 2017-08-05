@@ -4,7 +4,7 @@
 
 <script>
   export default {
-    name: '{{name}}',
+    name: '{{dir}}-{{name}}',
     data() {
       return {}
     },
