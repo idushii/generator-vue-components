@@ -17,13 +17,13 @@ To save local settings for the project, you can use the local configuration file
 
 To generate the Vue file component, run:
 1. The "generator-vue-components: new component" command in the command palette (chift + cntrl + P).
-2.1. If a selection is selected from the list of templates, select the one you want. Otherwise, this step is automatically skipped.
-2.2. If a selection is selected from the list of component names, select the desired one. Otherwise, enter a name for the string.
-2.3. If a selection is selected from the list of paths for generating components, select the desired one. Otherwise, enter the path as a string.
-3. Done!
+2. If a selection is selected from the list of templates, select the one you want. Otherwise, this step is automatically skipped.
+3. If a selection is selected from the list of component names, select the desired one. Otherwise, enter a name for the string.
+4. If a selection is selected from the list of paths for generating components, select the desired one. Otherwise, enter the path as a string.
+5. Done!
 
 ## Structure of config.json settings file
-{
+{  
   "Lang": "en",                           // Possible variants of "en", "en"
   "Default": {                            // Default parameters
     "Template": "component",              // Default template when typing
