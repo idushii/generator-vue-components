@@ -46,4 +46,4 @@ To generate a Vue component file:
 
 
 
-The source code is available on [GitHub] (https://github.com/idushii/generator-vue-components/ "https://github.com/idushii/generator-vue-components").
+The source code is available on <https://github.com/idushii/generator-vue-components>
