@@ -24,24 +24,26 @@ To generate a Vue component file:
 
 ## Structure of config.json settings file
 
-    {
-      "Lang": "en",                 // Possible variants of "en", "en"
-      "Default": {                  // Default parameters
-        "Template": "component",    // Default template when typing
-        "Name": "view",             // Name of the generated default component when typing
-        "Path": "/src/components/"  // Path of the generated component by default when typed
-      },
-      "Lists": {                    // Parameters of the selection lists
-        "Template": true,           // Use the selection from the list of existing templates (general and local)
-                                    // List of path selection for the generated components (for the input of the string null)
-        "Path": ["/src/components/", "/src/components/home"],
-                                    // The list of names for the generated components (for the string to be null)
-        "Name": ["list", "view", "edit"]
-      },
-      "Templates": {                // Internal variables
-        "Global": [],
-        "Local": []
-      }
-    }
+    {  
+      "Lang": "en",                           // Possible variants of "en", "en"
+      "Default": {                            // Default parameters
+        "Template": "component",              // Default template when typing
+        "Name": "view",                       // Name of the generated default component when typing
+        "Path": "/src/components/"            // Path of the generated component by default when typed
+      },
+      "Lists": {                              // Parameters of the selection lists
+        "Template": true,                     // Use the selection from the list of existing templates (general and local)
+        // List of path selection for the generated components (for the input of the string null)
+        "Path": ["/src/components/", "/src/components/home"],
+    	// The list of names for the generated components (for the string to be null)
+        "Name": ["list", "view", "edit"]
+      },
+      "Templates": {                			// Internal variables
+        "Global": [],
+        "Local": []
+      }
+    }
+
+
 
 The source code is available on [GitHub] (https://github.com/idushii/generator-vue-components/ "https://github.com/idushii/generator-vue-components").
