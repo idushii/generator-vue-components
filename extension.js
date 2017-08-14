@@ -178,8 +178,8 @@ function generate() {
     .then(({ template, name, path }) => {
       let isLocal = false;
       if (template.indexOf("\t") != -1) {
+        isLocal = template.split("\t")[0] == lang['local'] ? true : false;
         template = template.split("\t")[1];
-        isLocal = true;
       }
       return files.getFile('/templates/' + template, isLocal)
         .then(text => {

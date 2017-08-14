@@ -19,3 +19,11 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 - Fixed generation of components from local templates
 ### Added
 - Added the ability to specify a directory through the template "{{dir}}" in the source template
+
+## [0.1.4] [06.08.2017]
+### Fixed
+- Update file ReadMe.md
+
+## [0.1.5] [14.08.2017]
+### Fixed
+- Update function create templates from glabal directory
