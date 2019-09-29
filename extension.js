@@ -64,13 +64,17 @@ function getName() {
     if (name == '') return config.default.name;
     if (name == undefined) return Promise.reject('cancel')
     if (name == lang['Entering text without saving']) {
-      return new Promise(function (resolve, reject) {
-        resolve(vscode.window.showInputBox({ prompt: lang['The name of the component?'], value: config.default.name }));
+      return new Promise(async function (resolve, reject) {
+        let name = await vscode.window.showInputBox({ prompt: lang['The name of the component?'], value: config.default.name })
+        if (name) resolve(name);
+        else reject('cancel')
       })
     }
     if (name == lang['Entering text with saving']) {
-      return new Promise(function (resolve, reject) {
-        resolve(vscode.window.showInputBox({ prompt: lang['The name of the component?'], value: config.default.name }));
+      return new Promise(async function (resolve, reject) {
+        let name = await vscode.window.showInputBox({ prompt: lang['The name of the component?'], value: config.default.name })
+        if (name) resolve(name)
+        else reject('cancel')
       }).then(name => {
         // Обработка сохранения имени в локальнй конфиг (при отсутствии генерация конфига)
         files.getLocalConfig()
@@ -103,13 +107,17 @@ function getPath() {
     if (path == '') return config.default.path;
     if (path == undefined) return Promise.reject('cancel')
     if (path == lang['Entering text without saving']) {
-      return new Promise(function (resolve, reject) {
-        resolve(vscode.window.showInputBox({ prompt: lang['The path to the component?'], value: config.default.path }));
+      return new Promise(async function (resolve, reject) {
+        let path = await vscode.window.showInputBox({ prompt: lang['The path to the component?'], value: config.default.path })
+        if (path) resolve(path);
+        else reject('cancel')
       })
     }
     if (path == lang['Entering text with saving']) {
-      return new Promise(function (resolve, reject) {
-        resolve(vscode.window.showInputBox({ prompt: lang['The path to the component?'], value: config.default.path }));
+      return new Promise(async function (resolve, reject) {
+        let path = await vscode.window.showInputBox({ prompt: lang['The path to the component?'], value: config.default.path })
+        if (path) resolve(path);
+        else  reject('cancel')
       }).then(path => {
         // Обработка сохранения имени в локальнй конфиг (при отсутствии генерация конфига)
         files.getLocalConfig()
