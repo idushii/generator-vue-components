@@ -24,7 +24,9 @@
     "Какое имя файла шаблона?": "Какое имя файла шаблона?",
     "Создать новый шаблон": "Создать новый шаблон",
     "Изменить существующий шаблон": "Изменить существующий шаблон",
-    "Открыть файл config.json": "Открыть файл config.json"
+    "Открыть файл config.json": "Открыть файл config.json",
+    "continue": "Продолжить",
+    "skip": "Пропустить"
   },
   "en": {
     "Error parsing configuration file": "Error parsing configuration file",
@@ -51,6 +53,8 @@
     "Какое имя файла шаблона?": "What is the name of the template file?",
     "Создать новый шаблон": "Create new template",
     "Изменить существующий шаблон": "Edit an existing template",
-    "Открыть файл config.json": "Open the config.json file"
+    "Открыть файл config.json": "Open the config.json file",
+    "continue": "continue",
+    "skip": "skip"
   }
 }

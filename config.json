@@ -7,9 +7,23 @@
   },
   "lists": {
     "template": true,
+    "prefics": false,
+    "postfics": false,
     "path": ["/src/components/", "/src/components/home"],
-    "name": ["list", "view", "edit"]
+    "name": ["List", "View", "Edit"]
   },
+  "prefics": [
+    "Add",
+    "Edit",
+    "Remove",
+    "View"
+  ],
+  "postfics": [
+    "Add",
+    "Edit",
+    "Remove",
+    "View"
+  ],
   "templates": {
     "global": [],
     "local": []

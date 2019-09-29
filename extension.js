@@ -1,12 +1,13 @@
 var fs = require('fs');
 var vscode = require('vscode');
 var files = require('./files');
+var {prefics} = require('./functions/FileName');
 var getJSONFile = files.getJSONFile;
 var config = files.config;
 var lang = {};
 let rootPath = __dirname;
-let localPathConfig = vscode.workspace.rootPath + '/.vscode/generator-vue-components/';
-let localPath = vscode.workspace.rootPath + '';
+let localPathConfig = vscode.workspace.workspaceFolders + '/.vscode/generator-vue-components/';
+let localPath = vscode.workspace.workspaceFolders + '';
 let menu = [];
 
 let terminal = vscode.window.createTerminal('generator-vue -components');
@@ -183,6 +184,7 @@ function generate() {
     .then(({ template, name }) => getPath().then(path => {
       return { template, name, path }
     }))
+    .then(async ({ template, name, path }) => ({ template, name, path, prefics: prefics(config) }))
     .then(({ template, name, path }) => {
       let isLocal = false;
       if (template.indexOf("\t") != -1) {
