@@ -1,8 +1,8 @@
 var fs = require('fs');
+var pathModule = require('path');
 var vscode = require('vscode');
 var files = require('./files');
 var getJSONFile = files.getJSONFile;
-var config = files.config;
 var lang = {};
 let rootPath = __dirname;
 let localPathConfig = vscode.workspace.rootPath + '/.vscode/generator-vue-components/';
@@ -12,209 +12,56 @@ let menu = [];
 let terminal = vscode.window.createTerminal('generator-vue -components');
 //terminal.show()
 
+var {SelectNameComponent} = require('./functions/select-name');
+var {SelectPath} = require('./functions/select-path');
+var {SelectTemplate} = require('./functions/select-template');
+var {LoadConfig} = require('./functions/config');
+
+var config = files.config;
+
 /* ----------------------------------- Загрузка файлов конфигураций ----------------------------------- */
 // Загрузка файлов config.json, lang.json и локального файла config.json в открытом проекте
 files.setGlobalRoot(rootPath)
 files.setLocalRoot(localPathConfig)
 
-Promise.all([getJSONFile('config.json'), getJSONFile('lang.json')]).then(([config_, lang_]) => {
-  config = config_;
-  lang = lang_[config.lang];
-  getJSONFile('config.json', true)
-    .then(localConfig => {
-      lang = lang_[localConfig.lang];
-      if (localConfig.lang) config.lang = localConfig.lang;
-      if (localConfig.default) {
-        config.default.template = localConfig.default.template;
-        config.default.name = localConfig.default.name;
-        config.default.path = localConfig.default.path;
-      }
-      if (localConfig.lists) {
-        config.lists.template = localConfig.lists.template;
-        config.lists.name = localConfig.lists.name;
-        config.lists.path = localConfig.lists.path;
-      }
-    })
-    .catch(err => {
-      console.log(lang['Local configuration file not found']);
-    })
-}).catch(err => {
-  console.error(err);
-  vscode.window.showErrorMessage(err.message);
-}).then(values => {
-  //Получение списка глобальных шаблонов
-  files.getNamesGlobalTemplates().then(templates => {
-    config.templates.global = templates
-  })
-})
-
 /* ----------------------------------- Генерация нового компонента ----------------------------------- */
 // Выбор имени компонента
-function getName() {
-  return new Promise(function (resolve, reject) {
-    if (config.lists.name) {
-      let itemsListNames = config.lists.name.map(i => i);
-      itemsListNames.push(lang['Entering text without saving']);
-      itemsListNames.push(lang['Entering text with saving']);
-      resolve(vscode.window.showQuickPick(itemsListNames, { ignoreFocusOut: true, placeHolder: lang['The name of the component?'] }));
-    } else {
-      resolve(vscode.window.showInputBox({ prompt: lang['The name of the component?'], placeHolder: config.default.name, /*value: config.default.name//*/ }));
-    }
-  }).then(name => {
-    if (name == '') return config.default.name;
-    if (name == undefined) return Promise.reject('cancel')
-    if (name == lang['Entering text without saving']) {
-      return new Promise(async function (resolve, reject) {
-        let name = await vscode.window.showInputBox({ prompt: lang['The name of the component?'], value: config.default.name })
-        if (name) resolve(name);
-        else reject('cancel')
-      })
-    }
-    if (name == lang['Entering text with saving']) {
-      return new Promise(async function (resolve, reject) {
-        let name = await vscode.window.showInputBox({ prompt: lang['The name of the component?'], value: config.default.name })
-        if (name) resolve(name)
-        else reject('cancel')
-      }).then(name => {
-        // Обработка сохранения имени в локальнй конфиг (при отсутствии генерация конфига)
-        files.getLocalConfig()
-          .catch(err => {
-            if (err.code == 'ENOENT')
-              return files.createLocalConfig()
-          })
-          .then(values => {
-            config.lists.name.push(name)
-            files.push_name(name)
-          })
-        return name;
-      })
-    }
-    return name
-  })
-}
+
 // Выбор пути создания компонента
-function getPath() {
-  return new Promise(function (resolve, reject) {
-    if (config.lists.path) {
-      let itemsListPaths = config.lists.path.map(i => i);
-      itemsListPaths.push(lang['Entering text without saving']);
-      itemsListPaths.push(lang['Entering text with saving']);
-      resolve(vscode.window.showQuickPick(itemsListPaths, { ignoreFocusOut: true, placeHolder: lang['The path to the component?'] }));
-    } else {
-      resolve(vscode.window.showInputBox({ prompt: lang['The path to the component?'], placeHolder: config.default.path /*, value: config.default.path//*/ }));
-    }
-  }).then(path => {
-    if (path == '') return config.default.path;
-    if (path == undefined) return Promise.reject('cancel')
-    if (path == lang['Entering text without saving']) {
-      return new Promise(async function (resolve, reject) {
-        let path = await vscode.window.showInputBox({ prompt: lang['The path to the component?'], value: config.default.path })
-        if (path) resolve(path);
-        else reject('cancel')
-      })
-    }
-    if (path == lang['Entering text with saving']) {
-      return new Promise(async function (resolve, reject) {
-        let path = await vscode.window.showInputBox({ prompt: lang['The path to the component?'], value: config.default.path })
-        if (path) resolve(path);
-        else  reject('cancel')
-      }).then(path => {
-        // Обработка сохранения имени в локальнй конфиг (при отсутствии генерация конфига)
-        files.getLocalConfig()
-          .catch(err => {
-            if (err.code == 'ENOENT')
-              return files.createLocalConfig()
-          })
-          .then(values => {
-            config.lists.path.push(path)
-            files.push_path(path)
-          })
-        return path;
-      })
-    }
-    return path
-  })
-}
+
 // Выбор шаблона
-function getTemplates() {
-  if (config.lists.template) {
-    return new Promise((resolve, reject) => {
-        resolve(files.getNamesLocalTemplates())
-      })
-      .catch(err => {
-        return []
-      })
-      .then((LocalNames = []) => {
-        config.templates.local = LocalNames
-        let names = []
 
-        if (LocalNames.length) {
-          names = config.templates.local.map(n => `${lang['local']}\t` + n).join(';') + ';'
-          names += config.templates.global.map(n => `${lang['global']}\t` + n).join(';');
-          names = names.split(';')
-        } else {
-          names = config.templates.global
-        }
+// Создание компонента
 
-        return new Promise((resolve, reject) => {
-            resolve(vscode.window.showQuickPick(names, {
-              placeHolder: lang['Select a template'],
-              ignoreFocusOut: true
-            }))
-          })
-          .then(nameTemplate => {
-            if (nameTemplate == undefined) return Promise.reject('cancel')
-            return nameTemplate
-          })
-      })
+async function CreateComponent({template, name, path}) {
+  let text = fs.readFileSync(pathModule.normalize(template), {encoding: "utf8"})
+  let dir = pathModule.normalize(path).split(pathModule.sep).filter(item => item);
+  dir = dir[dir.length - 1]
+  text = text.replace(/{{name}}/g, name).replace(/{{dir}}/g, dir);
+  let fullPath = pathModule.normalize(localPath + pathModule.sep + path + pathModule.sep + name + '.vue')
+  let result = fs.writeFileSync(fullPath, text)
+  if (!result) {
+    vscode.window.showInformationMessage(config.words['Компонент создан'] + `. Name: "${name}", Path: "${path}",  Template: "${template}"`);
+    terminal.sendText('code "' + fullPath + '"')
   } else {
-    return new Promise((resolve, reject) => {
-      resolve(config.default.template)
-    })
+    vscode.window.showInformationMessage(config.words['Ошибка записи файла']);
   }
 }
+
 // Меню генерации нового компонента
-function generate() {
-  getTemplates()
-    .then(template => getName().then((name, err) => {
-      console.log(err)
-      return { template, name }
-    }))
-    .then(({ template, name }) => getPath().then(path => {
-      return { template, name, path }
-    }))
-    .then(({ template, name, path }) => {
-      let isLocal = false;
-      if (template.indexOf("\t") != -1) {
-        isLocal = template.split("\t")[0] == lang['local'] ? true : false;
-        template = template.split("\t")[1];
-      }
-      return files.getFile('/templates/' + template, isLocal)
-        .then(text => {
-          console.log(`template: ${template}, name: ${name}, path: ${path}`)
-          return { template, name, path, text }
-        })
-    })
-    .then(({ template, name, path, text }) => {
-      let dir = path.split('/');
-      dir = dir[dir.length - 1]
-      text = text.replace(/{{name}}/g, name).replace(/{{dir}}/g, dir);
+async function generate() {
+  config = await LoadConfig()
 
-      if (!fs.existsSync(localPath + '/' + path)) {
-        fs.mkdirSync(localPath + '/' + path);
-      }
+  let {template} = await SelectTemplate(config)
+  if (!template) return
 
-      console.log(localPath + '/' + path + '/' + name + '.vue')
+  let name = await SelectNameComponent(config)
+  if (!name) return
 
-      fs.writeFile(localPath + '/' + path + '/' + name + '.vue', text, function (err) {
-        if (!err) {
-          vscode.window.showInformationMessage(lang['Component is a created'] + `. Name: "${name}", Path: "${path}",  Template: "${template}"`);
-          terminal.sendText('code "' + localPath + '/' + path + '/' + name + '.vue"')
-        } else
-          vscode.window.showInformationMessage(lang['Error writing file']);
-      }); //*/
+  let path = await SelectPath(config)
+  if (!path) return
 
-    })
+  CreateComponent({template, name, path})
 }
 
 /* ----------------------------------- Подменю config.json ----------------------------------- */
