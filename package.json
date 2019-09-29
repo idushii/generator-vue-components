@@ -1,10 +1,10 @@
 {
-  "name": "generator-vue-components",
-  "displayName": "generator-vue-components",
-  "publisherName": "generator-vue-components",
+  "name": "generator-vue-components-v2",
+  "displayName": "Generator vue components v2",
+  "publisherName": "Nic34",
   "description": "Application for generating Vue file components",
   "version": "0.1.7",
-  "publisher": "Nic34",
+  "publisher": "generator-vue-components-v2",
   "engines": {
     "vscode": "^1.14.0"
   },
