@@ -26,4 +26,10 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 ## [0.1.5] [14.08.2017]
 ### Fixed
-- Update function create templates from glabal directory
+- Update function create templates from global directory
+
+## [0.1.7] [29.09.2019]
+### Notice
+- Change extension name to Generator vue components. Alse change extension id to generator-vue-components-v2. File extension old don`t update now.
+### Fixed
+- Fix bug create components with set `null` for name or path information
