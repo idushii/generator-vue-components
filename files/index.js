@@ -44,6 +44,18 @@ module.exports.getFile = function (name = '', local = false) {
   })
 }
 
+module.exports.checkExistsFile = function (path, name) {
+  return new Promise(function (resolve, reject) {
+    fs.exists(path + name, 'utf8', function (err, content) {
+      if (err) {
+        reject(false)
+      } else {
+        resolve(true)
+      }
+    })
+  })
+}
+
 module.exports.getJSONFile = function (name = '', local = false) {
   return new Promise(function (resolve, reject) {
     let path = local ? localRoot + '/' + name : globalRoot + '/' + name
