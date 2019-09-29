@@ -1,6 +1,6 @@
 {
   "name": "generator-vue-components-v2",
-  "displayName": "Generator vue components v2",
+  "displayName": "Generator vue components",
   "publisherName": "Nic34",
   "description": "Application for generating Vue file components",
   "version": "0.1.7",
